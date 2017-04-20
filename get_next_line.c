@@ -2,7 +2,10 @@
 
 int			get_next_line(const int fd, char **line)
 {
-	int bytesread = read(fd, *line, BUFF_SIZE);
-	bytesread = read(fd, *line, BUFF_SIZE);
-	return (bytesread);
+	(void)fd;
+	(void)line;
+	char		*buffer;
+
+	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
+	return (0);
 }
