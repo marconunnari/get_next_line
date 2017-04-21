@@ -19,6 +19,14 @@ int			split(char **line, char *string, char *newlineptr, char **remain)
 	return (1);
 }
 
+void			setline(char **line, char *string)
+{
+	if (*line)
+		*line = ft_strjoin(*line, string);
+	else
+		*line = string;
+}
+
 int			get_next_line(const int fd, char **line)
 {
 	char			*buffer;
@@ -26,12 +34,13 @@ int			get_next_line(const int fd, char **line)
 	static char		*remain;
 	int				ret;
 
-	*line = "";
+	*line = NULL;
 	if (remain)
 	{
 		if ((newlineptr = ft_strchr(remain, '\n')))
 			return (split(line, remain, newlineptr, &remain));
-		*line = ft_strjoin(*line, remain);
+		setline(line, remain);
+		remain = NULL;
 	}
 	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	while ((ret = read(fd, buffer, BUFF_SIZE) > 0))
@@ -39,8 +48,10 @@ int			get_next_line(const int fd, char **line)
 		if ((newlineptr = ft_strchr(buffer, '\n')))
 			return (split(line, buffer, newlineptr, &remain));
 		else
-			*line = ft_strjoin(*line, buffer);
+			setline(line, buffer);
+		IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	}
 	IFRETURN(ret == -1, -1);
+	IFRETURN(*line && !ft_strequ(*line,""), 1);
 	return (0);
 }
