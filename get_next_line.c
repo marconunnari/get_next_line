@@ -7,7 +7,6 @@ int			get_next_line(const int fd, char **line)
 	static char		*remain;
 	int			ret;
 
-	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	*line = "";
 	if (remain)
 	{
@@ -19,6 +18,7 @@ int			get_next_line(const int fd, char **line)
 		}
 		*line = ft_strjoin(*line, remain);
 	}
+	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	while ((ret = read(fd, buffer, BUFF_SIZE) > 0))
 	{
 		if ((newlineptr = ft_strchr(buffer, '\n')))
@@ -30,7 +30,6 @@ int			get_next_line(const int fd, char **line)
 		else
 		{
 			*line = ft_strjoin(*line, buffer);
-			return (1);
 		}
 	}
 	IFRETURN(ret == -1, -1);
