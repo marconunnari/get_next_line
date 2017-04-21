@@ -34,7 +34,7 @@ int			get_next_line(const int fd, char **line)
 	static char		*remain;
 	int				ret;
 
-	*line = NULL;
+	*line = "";
 	if (remain)
 	{
 		if ((newlineptr = ft_strchr(remain, '\n')))
@@ -42,6 +42,7 @@ int			get_next_line(const int fd, char **line)
 		setline(line, remain);
 		remain = NULL;
 	}
+	IFRETURN(fd < 0, -1);
 	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	while ((ret = read(fd, buffer, BUFF_SIZE) > 0))
 	{
