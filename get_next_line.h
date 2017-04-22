@@ -17,6 +17,12 @@
 # include <fcntl.h>
 # include "libft.h"
 
+typedef struct		s_remain
+{
+	int		fd;
+	char		*content;
+}			t_remain;
+
 int		get_next_line(int fd, char **str);
 
 # define BUFF_SIZE 32
