@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:51:47 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/22 18:22:33 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/23 16:40:57 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ t_remain			*create_remain(t_list **remains, int fd)
 	t_list			*remainsptr;
 	t_remain		*remain;
 
-	IFRETURN(!(remain = (t_remain*)malloc(sizeof(remain))), NULL);
+	IFRETURN(!(remain = (t_remain*)malloc(sizeof(t_remain))), NULL);
 	remain->fd = fd;
 	remain->content = NULL;
-	IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(remain))), NULL);
+	IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(t_remain))), NULL);
 	if (*remains)
 		ft_lstadd(remains, remainsptr);
 	else
