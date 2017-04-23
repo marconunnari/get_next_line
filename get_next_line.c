@@ -55,23 +55,13 @@ int				process_fd(t_remain *remain, char **line)
 	return (0);
 }
 
-int				get_next_line(const int fd, char **line)
+t_remain			*find_remain(t_list *remains, int fd)
 {
-	static t_list		*remains;
 	t_list			*remainsptr;
 	t_remain		*remain;
 
-	IFRETURN(fd < 0, -1);
 	remain = NULL;
-	if (!remains)
-	{
-		IFRETURN(!(remain = (t_remain*)malloc(sizeof(remain))), -1);
-		remain->fd = fd;
-		remain->content = NULL;
-		IFRETURN(!(remains = ft_lstnew(remain, sizeof(remain))), -1);
-		remain = (t_remain*)remains->content;
-	}
-	else
+	if (remains)
 	{
 		remainsptr = remains;
 		while (remainsptr && !remain)
@@ -82,15 +72,35 @@ int				get_next_line(const int fd, char **line)
 			remainsptr = remainsptr->next;
 		}
 	}
+	return (remain);
+}
+
+t_remain			*create_remain(t_list **remains, int fd)
+{
+	t_list			*remainsptr;
+	t_remain		*remain;
+
+	IFRETURN(!(remain = (t_remain*)malloc(sizeof(remain))), NULL);
+	remain->fd = fd;
+	remain->content = NULL;
+	IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(remain))), NULL);
+	if (*remains)
+		ft_lstadd(remains, remainsptr);
+	else
+		*remains = remainsptr;
+	remain = (t_remain*)(*remains)->content;
+	return (remain);
+}
+
+int				get_next_line(const int fd, char **line)
+{
+	static t_list		*remains;
+	t_remain		*remain;
+
+	IFRETURN(fd < 0, -1);
+	remain = find_remain(remains, fd);
 	if (!remain)
-	{
-		IFRETURN(!(remain = (t_remain*)malloc(sizeof(remain))), -1);
-		remain->fd = fd;
-		remain->content = NULL;
-		IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(remain))), -1);
-		ft_lstadd(&remains, remainsptr);
-		remain = (t_remain*)remains->content;
-	}
-	int ret = (process_fd(remain, line));
-	return (ret);
+		remain = create_remain(&remains, fd);
+	IFRETURN(!remain, -1);
+	return (process_fd(remain, line));
 }
