@@ -46,7 +46,7 @@ int				process_fd(t_remain *remain, char **line)
 	}
 	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
 	IFRETURN(read(remain->fd, buffer, 0) < 0, -1);
-	while ((ret = read(remain->fd, buffer, BUFF_SIZE) > 0))
+	while ((ret = read(remain->fd, buffer, BUFF_SIZE)) > 0)
 	{
 		IFRETURN(process_line(line, buffer, newlineptr, remain), 1);
 		free(buffer);
