@@ -57,6 +57,23 @@ int				process_fd(t_remain *remain, char **line)
 	return (0);
 }
 
+t_remain		*create_remain(t_list **remains, int fd)
+{
+	t_list			*remainsptr;
+	t_remain		*remain;
+
+	IFRETURN(!(remain = (t_remain*)malloc(sizeof(t_remain))), NULL);
+	remain->fd = fd;
+	remain->content = NULL;
+	IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(t_remain))), NULL);
+	if (*remains)
+		ft_lstadd(remains, remainsptr);
+	else
+		*remains = remainsptr;
+	remain = (t_remain*)(*remains)->content;
+	return (remain);
+}
+
 t_remain		*find_remain(t_list *remains, int fd)
 {
 	t_list			*remainsptr;
@@ -74,23 +91,6 @@ t_remain		*find_remain(t_list *remains, int fd)
 			remainsptr = remainsptr->next;
 		}
 	}
-	return (remain);
-}
-
-t_remain		*create_remain(t_list **remains, int fd)
-{
-	t_list			*remainsptr;
-	t_remain		*remain;
-
-	IFRETURN(!(remain = (t_remain*)malloc(sizeof(t_remain))), NULL);
-	remain->fd = fd;
-	remain->content = NULL;
-	IFRETURN(!(remainsptr = ft_lstnew(remain, sizeof(t_remain))), NULL);
-	if (*remains)
-		ft_lstadd(remains, remainsptr);
-	else
-		*remains = remainsptr;
-	remain = (t_remain*)(*remains)->content;
 	return (remain);
 }
 
