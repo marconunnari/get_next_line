@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:51:47 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/23 16:53:11 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/23 18:08:44 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				process_fd(t_remain *remain, char **line)
 		remain->content = NULL;
 	}
 	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
+	IFRETURN(read(remain->fd, buffer, 0) < 0, -1);
 	while ((ret = read(remain->fd, buffer, BUFF_SIZE) > 0))
 	{
 		IFRETURN(process_line(line, buffer, newlineptr, remain), 1);
@@ -97,7 +98,7 @@ int				get_next_line(const int fd, char **line)
 	static t_list		*remains;
 	t_remain			*remain;
 
-	IFRETURN(fd < 0, -1);
+	IFRETURN(fd < 0 || !line, -1);
 	remain = find_remain(remains, fd);
 	if (!remain)
 		remain = create_remain(&remains, fd);
