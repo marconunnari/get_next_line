@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:53:00 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/21 17:53:01 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/23 16:52:38 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 
 typedef struct		s_remain
 {
-	int		fd;
-	char		*content;
-}			t_remain;
+	int				fd;
+	char			*content;
+}					t_remain;
 
-int		get_next_line(int fd, char **str);
+int					get_next_line(int fd, char **str);
 
 # define BUFF_SIZE 32
 

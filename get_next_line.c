@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:51:47 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/23 16:40:57 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/23 16:53:11 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int				process_fd(t_remain *remain, char **line)
 	return (0);
 }
 
-t_remain			*find_remain(t_list *remains, int fd)
+t_remain		*find_remain(t_list *remains, int fd)
 {
 	t_list			*remainsptr;
 	t_remain		*remain;
@@ -75,7 +75,7 @@ t_remain			*find_remain(t_list *remains, int fd)
 	return (remain);
 }
 
-t_remain			*create_remain(t_list **remains, int fd)
+t_remain		*create_remain(t_list **remains, int fd)
 {
 	t_list			*remainsptr;
 	t_remain		*remain;
@@ -95,7 +95,7 @@ t_remain			*create_remain(t_list **remains, int fd)
 int				get_next_line(const int fd, char **line)
 {
 	static t_list		*remains;
-	t_remain		*remain;
+	t_remain			*remain;
 
 	IFRETURN(fd < 0, -1);
 	remain = find_remain(remains, fd);
