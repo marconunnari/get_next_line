@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:53:00 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/23 16:52:38 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/24 18:47:50 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 
 # include <unistd.h>
-# include <fcntl.h>
 # include "libft.h"
 
 typedef struct		s_remain
