@@ -12,46 +12,42 @@
 
 #include "get_next_line.h"
 
-int				process_line(char **line, char *string,
-						char *newlineptr, t_remain *remain)
+int				process_buffer(char *buffer, char **line, t_remain *remain)
 {
-	if ((newlineptr = ft_strchr(string, '\n')))
+	char		*newline;
+
+	if ((newline = ft_strchr(buffer, '\n')))
 	{
-		*line = ft_strjoin(*line, ft_strsub(string, 0, newlineptr - string));
-		remain->content = newlineptr + 1;
+		*line = ft_strmerge(*line, ft_strsub(buffer, 0, newline - buffer));
+		REASSIGN(remain->content, ft_strdup(newline + 1));
 		return (1);
 	}
+	if (*line)
+		*line = ft_strmerge(*line, ft_strdup(buffer));
 	else
-	{
-		if (*line)
-			*line = ft_strjoin(*line, string);
-		else
-			*line = string;
-		return (0);
-	}
+		*line = buffer;
+	ft_strdel(&remain->content);
+	return (0);
 }
 
 int				process_fd(t_remain *remain, char **line)
 {
 	char			*buffer;
-	char			*newlineptr;
 	int				ret;
 
-	*line = ft_strnew(1);
-	newlineptr = NULL;
+	REASSIGN(*line, ft_strnew(0));
 	if (remain->content)
-	{
-		IFRETURN(process_line(line, remain->content, newlineptr, remain), 1);
-		remain->content = NULL;
-	}
-	IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
+		IFRETURN(process_buffer(remain->content, line, remain) == 1, 1);
+	IFRETURN((buffer = ft_strnew(BUFF_SIZE + 1)) == NULL, -1);
 	IFRETURN(read(remain->fd, buffer, 0) < 0, -1);
 	while ((ret = read(remain->fd, buffer, BUFF_SIZE)) > 0)
 	{
-		IFRETURN(process_line(line, buffer, newlineptr, remain), 1);
-		free(buffer);
-		IFRETURN(!(buffer = ft_strnew(BUFF_SIZE + 1)), -1);
+		ret = process_buffer(buffer, line, remain);
+		ft_strdel(&buffer);
+		IFRETURN(ret == 1, 1);
+		IFRETURN((buffer = ft_strnew(BUFF_SIZE + 1)) == NULL, -1);
 	}
+	ft_strdel(&buffer);
 	IFRETURN(ret == -1, -1);
 	IFRETURN(*line && !ft_strequ(*line, ""), 1);
 	return (0);
@@ -70,6 +66,7 @@ t_remain		*create_remain(t_list **remains, int fd)
 		ft_lstadd(remains, remainsptr);
 	else
 		*remains = remainsptr;
+	free(remain);
 	remain = (t_remain*)(*remains)->content;
 	return (remain);
 }
