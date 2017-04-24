@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:51:47 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/04/23 19:02:19 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/04/24 15:58:51 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				process_fd(t_remain *remain, char **line)
 	char			*buffer;
 	int				ret;
 
-	REASSIGN(*line, ft_strnew(0));
+	*line = ft_strnew(0);
 	if (remain->content)
 		IFRETURN(process_buffer(remain->content, line, remain) == 1, 1);
 	IFRETURN((buffer = ft_strnew(BUFF_SIZE + 1)) == NULL, -1);
