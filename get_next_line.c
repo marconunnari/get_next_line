@@ -6,7 +6,7 @@
 /*   By: mnunnari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 17:51:47 by mnunnari          #+#    #+#             */
-/*   Updated: 2017/05/15 18:35:08 by mnunnari         ###   ########.fr       */
+/*   Updated: 2017/05/17 19:01:15 by mnunnari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 int				process_buffer(char *buffer, char **line, t_remain *remain)
 {
 	char		*newline;
+	char		*old;
 
 	if ((newline = ft_strchr(buffer, '\n')))
 	{
 		*line = ft_strmerge(*line, ft_strsub(buffer, 0, newline - buffer));
-		free(remain->content);
+		old = remain->content;
 		remain->content = ft_strdup(newline + 1);
+		free(old);
 		return (1);
 	}
 	if (*line)
